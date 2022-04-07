@@ -2,7 +2,7 @@
 
 namespace Snake
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -11,6 +11,7 @@ namespace Snake
             DateTime lastDate = DateTime.Now;
             double frameRate = 1000 / 5.0;
             Meal meal = new Meal();
+            Snake snake = new Snake();
 
             //game loop
             while (!exit)
@@ -25,28 +26,44 @@ namespace Snake
                             exit = true;
                             break;
                         case ConsoleKey.RightArrow:
-                            //x
+                            snake.Direction = Direction.Right;
                             break;
                         case ConsoleKey.LeftArrow:
-                            //x
+                            snake.Direction = Direction.Left;
                             break;
                         case ConsoleKey.UpArrow:
-                            //x
+                            snake.Direction = Direction.Up;
                             break;
                         case ConsoleKey.DownArrow:
-                            //x
+                            snake.Direction = Direction.Down;
                             break;
-                    }
-                    if ((DateTime.Now - lastDate).TotalMilliseconds >= frameRate)
-                    {
-
-                        //gameaction
-                        lastDate = DateTime.Now;
-
-                    }
-                        
+                    }                     
                 }
-                
+                if ((DateTime.Now - lastDate).TotalMilliseconds >= frameRate)
+                {
+
+                    //gameaction
+                    snake.Move();
+                    
+                    if(meal.CurrentPosition.X == snake.HeadPosition.X
+                        && meal.CurrentPosition.Y == snake.HeadPosition.Y)
+                    {
+                        snake.EatMeal();
+                        meal = new Meal();
+                        frameRate /= 1.1;
+                    }
+
+                    if (snake.GameOver)
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"GAME OVER. YOUR SCORE:{snake.Length}");
+                        exit = true;
+                        Console.ReadLine();
+                    }
+
+                    lastDate = DateTime.Now;
+                }
+
             }
             
         }

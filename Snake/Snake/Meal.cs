@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Snake
 {
-    internal class Meal
+    public class Meal
     {
         public Coordinate CurrentPosition { get; set; }
 
@@ -26,15 +26,5 @@ namespace Snake
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("$");
         }
-
-
-
-
-
-
-
-
     }
-
-
 }
