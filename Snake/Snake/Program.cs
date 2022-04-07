@@ -6,9 +6,11 @@ namespace Snake
     {
         static void Main(string[] args)
         {
+            Console.CursorVisible = false;
             bool exit = false;
             DateTime lastDate = DateTime.Now;
             double frameRate = 1000 / 5.0;
+            Meal meal = new Meal();
 
             //game loop
             while (!exit)
