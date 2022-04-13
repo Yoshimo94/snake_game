@@ -25,6 +25,17 @@ namespace Snake
             _frameRate = 1000 / 5.0;
         }
 
+        public void RefreshGame()
+        {
+            Console.Clear();
+            _meal = new Meal();
+            _snake = new Snake();
+            _isRunning = true;
+            _lastDate = DateTime.Now;
+            _frameRate = 1000 / 5.0;
+
+        }
+
         public void StartGame()
         {
             //game loop
@@ -80,7 +91,7 @@ namespace Snake
                         }
                         else if (userinput.ToLower() == "n")
                         {
-                            _isRunning = true;
+                            RefreshGame();
                             StartGame();
                         }
                     }
