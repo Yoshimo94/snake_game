@@ -10,7 +10,7 @@ namespace Snake
 
             SnakeApp snakeApp = new SnakeApp();
 
-            snakeApp.StartGame();
+            snakeApp.MainMenu();
             
         }
     }

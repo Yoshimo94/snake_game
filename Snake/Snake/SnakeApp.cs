@@ -16,14 +16,6 @@ namespace Snake
         private DateTime _lastDate { get; set; }
         private double _frameRate { get; set; }
 
-        public SnakeApp()
-        {
-            _meal = new Meal();
-            _snake = new Snake();
-            _isRunning = true;
-            _lastDate = DateTime.Now;
-            _frameRate = 1000 / 5.0;
-        }
 
         public void RefreshGame()
         {
@@ -33,6 +25,32 @@ namespace Snake
             _isRunning = true;
             _lastDate = DateTime.Now;
             _frameRate = 1000 / 5.0;
+
+        }
+
+        public void MainMenu()
+        {
+            Console.WriteLine("Witaj w grze Snake ");
+            Console.WriteLine("1. Rozpocznij nową grę ");
+            Console.WriteLine("2. Wyjdź z gry ");
+            var userinput = Console.ReadLine();
+
+            if (userinput == "1")
+            {
+                RefreshGame();
+                StartGame();
+            }
+            else if (userinput == "2")
+            {
+                _isRunning = false;
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Wybierz jedną z dwóch opcji ");
+                MainMenu();
+                Console.Clear();
+            }
 
         }
 
@@ -48,7 +66,7 @@ namespace Snake
                     switch (input.Key)
                     {
                         case ConsoleKey.Escape:
-                            _isRunning = true;
+                            _isRunning = false;
                             break;
                         case ConsoleKey.RightArrow:
                             _snake.Direction = Direction.Right;
@@ -84,15 +102,17 @@ namespace Snake
                         Console.WriteLine($"GAME OVER. YOUR SCORE:{_snake.Length}");
                         Console.WriteLine("1. Aby zagrać ponowanie wciśnij: N ");
                         Console.WriteLine("2. Aby wyjść z gry wciśnij: Q ");
-                        var userinput = Console.ReadLine();
-                        if (userinput.ToLower() == "q")
+                        ConsoleKeyInfo userinput = Console.ReadKey();
+                        switch (userinput.Key)
                         {
-                            _isRunning = false;
-                        }
-                        else if (userinput.ToLower() == "n")
-                        {
-                            RefreshGame();
-                            StartGame();
+                            case ConsoleKey.Q:
+                                _isRunning = false;
+                                break;
+
+                            case ConsoleKey.N:
+                                RefreshGame();
+                                StartGame();
+                                break;
                         }
                     }
 
