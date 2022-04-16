@@ -11,20 +11,28 @@ namespace Snake
         public Coordinate CurrentPosition { get; set; }
 
 
-        public Meal()
-        {
-            Random rand = new Random();
-            int x = rand.Next(1, 20);
-            int y = rand.Next(1, 20);
-            CurrentPosition = new Coordinate(x, y);
-            Draw();
-        }
-
         public void Draw()
         {
             Console.SetCursorPosition(CurrentPosition.X, CurrentPosition.Y);
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("$");
         }
+        public void CreateMeal(List<Coordinate> snakeTail)
+        {
+            Random rand = new Random();
+            int x = rand.Next(1, 20);
+            int y = rand.Next(1, 20);
+
+            foreach (var tailUnit in snakeTail)
+            {
+                if (tailUnit.X == x && tailUnit.Y == y)
+                {
+                    CreateMeal(snakeTail);
+                }
+            }
+            CurrentPosition = new Coordinate(x, y);
+            Draw();
+        }
     }
 }
+
