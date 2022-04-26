@@ -31,18 +31,21 @@ namespace Snake
 
         private void CheckHighScore()
         {
-            //if (HighScore.CheckScore(_snake.Length))
-            //{
-            //    Console.WriteLine("Gratulacje, Twój wynik znalazł się w TOP5 ");
-            //    bool validName = false;
-            //    while (!validName)
-            //    {
-            //        Console.WriteLine("Podaj imię, aby zapisać wynik: ");
-            //        string userName = Console.ReadLine();
-            //        validName = HighScore.CheckName();
-            //    }
-            //    HighScore.SaveScore(userName);
-            //}
+            if (HighScore.CheckScore(_snake.Length))
+            {
+                Console.WriteLine("Gratulacje, Twój wynik znalazł się w TOP5 ");
+                bool validName = false;
+                while (!validName)
+                {
+                    Console.WriteLine("Podaj imię, aby zapisać wynik: ");
+                    string userName = Console.ReadLine();
+                    validName = HighScore.CheckName(userName);
+                    if (validName == true)
+                    {
+                        HighScore.SaveScore(userName, _snake.Length);
+                    }
+                }               
+            }
         }
         public void MainMenu()
         {
