@@ -16,27 +16,40 @@ namespace Snake
 
         public static void SaveScore(string userName, int snakeLength)
         {
-            StreamWriter highScore = CreateOrOpenTxtFile();
-
             var scoreToSave = userName + Separator + snakeLength.ToString();
-
-            highScore.WriteLine(scoreToSave);
-            highScore.Close();
-
+            using (var stream = File.AppendText(HighScoreFilePath))
+            {
+                stream.WriteLine(scoreToSave);
+            }
         }
 
         public static bool CheckScore(int snakeLength)
         {
-            var top5Score = File.ReadLines(HighScoreFilePath).Select(line => int.Parse(line)).OrderBy(score => score).Take(5);
+            var scores = ReadTextFile();
+            var scoreLists = scores.Values;
+            var scoreList = new List<int>();
 
-            if (top5Score.First() < snakeLength)
+            foreach (var temporaryScoreList in scoreLists)
+            {
+                scoreList.AddRange(temporaryScoreList);
+            }
+
+            if (scoreList.Count < 5)
             {
                 return true;
             }
             else
             {
-                return false;
+                foreach (var score in scoreList)
+                {
+                    if (snakeLength > score)
+                    {
+                        return true;
+                    }
+                }
             }
+
+            return false;
         }
         public static bool CheckName(string userName)
         {
@@ -46,38 +59,41 @@ namespace Snake
             }
             return true;
         }
-        public static StreamWriter CreateOrOpenTxtFile()
-        {
-            if (!File.Exists(HighScoreFilePath))
-            {
-                return File.CreateText(HighScoreFilePath);
-            }
-            else
-            {
-                return new StreamWriter(HighScoreFilePath, true);
-            }
-        }
+
         public static Dictionary<string, List<int>> ReadTextFile()
         {
-
-            var returnDict = new Dictionary<string, List<int>>();   
-            var highscore = File.ReadLines(HighScoreFilePath).ToList();
+            var returnDict = new Dictionary<string, List<int>>();
+            List<string> highscore;
+            try
+            {
+                highscore = File.ReadLines(HighScoreFilePath).ToList();
+            }
+            catch (FileNotFoundException ex)
+            {
+                return returnDict;
+            }
  
             if (highscore == null)
             {
                 return returnDict;
             }
            
-            var returnList = new List<int>();
-
             foreach (var line in highscore)
             {
                 var seperatedStrings = line.Split(Separator);
                 var userName = seperatedStrings[0];
                 var userScore = int.Parse(seperatedStrings[1]);
-                returnList.Add(userScore);
 
-                returnDict.Add(userName, returnList);
+                if (returnDict.ContainsKey(userName))
+                {
+                    returnDict[userName].Add(userScore);
+                }
+                else
+                {
+                    var returnList = new List<int>();
+                    returnDict.Add(userName, returnList);
+                    returnDict[userName].Add(userScore);
+                }
             }
             return returnDict;
         }
