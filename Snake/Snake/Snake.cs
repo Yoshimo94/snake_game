@@ -23,8 +23,6 @@ namespace Snake
             }
         }
         
-        
-
         public void EatMeal()
         {
             Length++;

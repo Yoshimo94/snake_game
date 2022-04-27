@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Snake
     public class Meal
     {
         public Coordinate CurrentPosition { get; set; }
-
+       
 
         public void Draw()
         {
@@ -28,6 +29,7 @@ namespace Snake
                 if (tailUnit.X == x && tailUnit.Y == y)
                 {
                     CreateMeal(snakeTail);
+                    return;
                 }
             }
             CurrentPosition = new Coordinate(x, y);

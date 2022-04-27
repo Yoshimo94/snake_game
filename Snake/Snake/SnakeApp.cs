@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Snake
 {
-    internal class SnakeApp
+    public class SnakeApp
     {
         private const double AccelerationRate = 1.1;
        
@@ -17,7 +17,7 @@ namespace Snake
         private double _frameRate { get; set; }
 
 
-        public void RefreshGame()
+        private void RefreshGame()
         {
             Console.Clear();
             _snake = new Snake();
@@ -29,6 +29,24 @@ namespace Snake
 
         }
 
+        private void CheckHighScore()
+        {
+            if (HighScore.CheckScore(_snake.Length))
+            {
+                Console.WriteLine("Gratulacje, Twój wynik znalazł się w TOP5 ");
+                bool validName = false;
+                while (!validName)
+                {
+                    Console.WriteLine("Podaj imię, aby zapisać wynik: ");
+                    string userName = Console.ReadLine();
+                    validName = HighScore.CheckName(userName);
+                    if (validName == true)
+                    {
+                        HighScore.SaveScore(userName, _snake.Length);
+                    }
+                }               
+            }
+        }
         public void MainMenu()
         {
             Console.WriteLine("Witaj w grze Snake ");
@@ -102,6 +120,7 @@ namespace Snake
                     {
                         Console.Clear();
                         Console.WriteLine($"GAME OVER. YOUR SCORE:{_snake.Length}");
+                        CheckHighScore();
                         Console.WriteLine("1. Aby zagrać ponowanie wciśnij: N ");
                         Console.WriteLine("2. Aby wyjść z gry wciśnij: Q ");
                         ConsoleKeyInfo userinput = Console.ReadKey();
