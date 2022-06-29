@@ -20,6 +20,7 @@ namespace Snake
         private void RefreshGame()
         {
             Console.Clear();
+            GameBoard.DrawGameBoard();
             _snake = new Snake();
             _meal = new Meal();
             _meal.CreateMeal(_snake.Tail);

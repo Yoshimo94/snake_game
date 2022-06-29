@@ -21,8 +21,8 @@ namespace Snake
         public void CreateMeal(List<Coordinate> snakeTail)
         {
             Random rand = new Random();
-            int x = rand.Next(1, 20);
-            int y = rand.Next(1, 20);
+            int x = rand.Next(1, 100);
+            int y = rand.Next(1, 30);
 
             foreach (var tailUnit in snakeTail)
             {

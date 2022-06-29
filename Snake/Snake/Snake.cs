@@ -19,7 +19,8 @@ namespace Snake
         {
             get {
                 return (Tail.Where(c => c.X == HeadPosition.X
-                    && c.Y == HeadPosition.Y).ToList().Count > 1) || outofRange; 
+                    && c.Y == HeadPosition.Y).ToList().Count > 1) 
+                    || HeadPosition.X > 100 || HeadPosition.Y > 30 || outofRange; 
             }
         }
         
