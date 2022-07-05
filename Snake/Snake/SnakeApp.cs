@@ -73,75 +73,84 @@ namespace Snake
             }
 
         }
-
         public void StartGame()
         {
             //game loop
             while (_isRunning)
             {
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo input = Console.ReadKey();
+                SnakeControl();
+                GameAction();
+            }
+        }
 
-                    switch (input.Key)
+
+        public void SnakeControl()
+        {
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo input = Console.ReadKey();
+
+                switch (input.Key)
+                {
+                    case ConsoleKey.Escape:
+                        _isRunning = false;
+                        break;
+                    case ConsoleKey.RightArrow:
+                        _snake.Direction = Direction.Right;
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        _snake.Direction = Direction.Left;
+                        break;
+                    case ConsoleKey.UpArrow:
+                        _snake.Direction = Direction.Up;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        _snake.Direction = Direction.Down;
+                        break;
+                }
+            }
+        }
+
+        public void GameAction()
+        {
+            if ((DateTime.Now - _lastDate).TotalMilliseconds >= _frameRate)
+            {
+
+                //gameaction
+                _snake.Move();
+
+                if (_meal.CurrentPosition.X == _snake.HeadPosition.X
+                    && _meal.CurrentPosition.Y == _snake.HeadPosition.Y)
+                {
+                    _snake.EatMeal();
+                    _meal = new Meal();
+                    _meal.CreateMeal(_snake.Tail);
+                    _frameRate /= AccelerationRate;
+                }
+
+                if (_snake.GameOver)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"GAME OVER. YOUR SCORE:{_snake.Length}");
+                    CheckHighScore();
+                    Console.WriteLine("1. Aby zagrać ponowanie wciśnij: N ");
+                    Console.WriteLine("2. Aby wyjść z gry wciśnij: Q ");
+                    ConsoleKeyInfo userinput = Console.ReadKey();
+                    switch (userinput.Key)
                     {
-                        case ConsoleKey.Escape:
+                        case ConsoleKey.Q:
                             _isRunning = false;
                             break;
-                        case ConsoleKey.RightArrow:
-                            _snake.Direction = Direction.Right;
-                            break;
-                        case ConsoleKey.LeftArrow:
-                            _snake.Direction = Direction.Left;
-                            break;
-                        case ConsoleKey.UpArrow:
-                            _snake.Direction = Direction.Up;
-                            break;
-                        case ConsoleKey.DownArrow:
-                            _snake.Direction = Direction.Down;
+
+                        case ConsoleKey.N:
+                            RefreshGame();
+                            StartGame();
                             break;
                     }
                 }
-                if ((DateTime.Now - _lastDate).TotalMilliseconds >= _frameRate)
-                {
-
-                    //gameaction
-                    _snake.Move();
-
-                    if (_meal.CurrentPosition.X == _snake.HeadPosition.X
-                        && _meal.CurrentPosition.Y == _snake.HeadPosition.Y)
-                    {
-                        _snake.EatMeal();
-                        _meal = new Meal();
-                        _meal.CreateMeal(_snake.Tail);
-                        _frameRate /= AccelerationRate;
-                    }
-
-                    if (_snake.GameOver)
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"GAME OVER. YOUR SCORE:{_snake.Length}");
-                        CheckHighScore();
-                        Console.WriteLine("1. Aby zagrać ponowanie wciśnij: N ");
-                        Console.WriteLine("2. Aby wyjść z gry wciśnij: Q ");
-                        ConsoleKeyInfo userinput = Console.ReadKey();
-                        switch (userinput.Key)
-                        {
-                            case ConsoleKey.Q:
-                                _isRunning = false;
-                                break;
-
-                            case ConsoleKey.N:
-                                RefreshGame();
-                                StartGame();
-                                break;
-                        }
-                    }
-
-                    _lastDate = DateTime.Now;
-                }
-
+                _lastDate = DateTime.Now;
             }
+
         }
 
     }
