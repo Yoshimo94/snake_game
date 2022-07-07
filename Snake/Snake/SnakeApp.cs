@@ -22,6 +22,7 @@ namespace Snake
             Console.Clear();
             GameBoard.DrawGameBoard();
             _snake = new Snake();
+            GameBoard.ActualScore(_snake.Length);
             _meal = new Meal();
             _meal.CreateMeal(_snake.Tail);
             _isRunning = true;
@@ -123,6 +124,7 @@ namespace Snake
                     && _meal.CurrentPosition.Y == _snake.HeadPosition.Y)
                 {
                     _snake.EatMeal();
+                    GameBoard.ActualScore(_snake.Length);
                     _meal = new Meal();
                     _meal.CreateMeal(_snake.Tail);
                     _frameRate /= AccelerationRate;

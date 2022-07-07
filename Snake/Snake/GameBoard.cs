@@ -23,5 +23,12 @@ namespace Snake
                 Console.WriteLine("~");
             }
         }
+
+        public static void ActualScore(int snakeLength)
+        {
+            Console.SetCursorPosition(105, 5);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"YOUR ACTUAL SCORE: {snakeLength}");
+        }
     }
 }
