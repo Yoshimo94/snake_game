@@ -54,7 +54,8 @@ namespace Snake
         {
             Console.WriteLine("Witaj w grze Snake ");
             Console.WriteLine("1. Rozpocznij nową grę ");
-            Console.WriteLine("2. Wyjdź z gry ");
+            Console.WriteLine("2. Wyświetl listę wyników ");
+            Console.WriteLine("3. Wyjdź z gry ");
             var userinput = Console.ReadLine();
 
             if (userinput == "1")
@@ -63,6 +64,22 @@ namespace Snake
                 StartGame();
             }
             else if (userinput == "2")
+            {
+                Console.Clear();
+                Console.WriteLine("Tabela Wyników: ");
+                HighScore.ShowScores();
+                Console.WriteLine("Aby wrócić do MainMenu wciśnij BACKSPACE ");
+                var userEntry = Console.ReadKey();
+                switch(userEntry.Key)
+                {
+                    case ConsoleKey.Backspace:
+                        Console.Clear();
+                        MainMenu();
+                        break;
+                }
+
+            }
+            else if (userinput == "3")
             {
                 _isRunning = false;
             }

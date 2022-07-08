@@ -98,5 +98,14 @@ namespace Snake
             return returnDict;
         }
 
+        public static void ShowScores()
+        {
+            var scores = File.ReadAllLines(HighScoreFilePath).ToList();
+
+            foreach (var score in scores)
+            {
+                Console.WriteLine(score);
+            }
+        }
     }
 }
